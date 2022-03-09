@@ -1,0 +1,19 @@
+---
+- hosts: all
+  tasks:
+  - name: Login to an API
+    uri:
+      url: 
+      method: POST
+      headers:
+        Content-Type: application/json
+        Authorization: 
+      # body_format: json
+      # body:
+      #   name: your_username
+      #   password: your_password
+      #   client_id: YOUR_CLIENT_ID
+      #   access_token: ACCESS_TOKEN
+      #   connection: CONNECTION
+      #   scope: SCOPE
+      return_content: yes

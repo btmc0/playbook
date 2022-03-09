@@ -1,0 +1,11 @@
+---
+  - name: "check info"
+    hosts: all
+    connection: local 
+    tasks:
+
+    - name: "get ipaddress"
+      shell: "ifconfig"
+      register: "output"
+
+    - debug: var=output.stdout_lines
