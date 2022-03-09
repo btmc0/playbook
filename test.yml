@@ -5,7 +5,7 @@
     tasks:
 
     - name: "just execute a ls -lrt command"
-      shell: "ip a"
+      shell: "pwd"
       register: "output"
 
     - debug: var=output.stdout_lines
