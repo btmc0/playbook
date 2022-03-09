@@ -5,4 +5,10 @@
   - name: "get ipaddress"
       shell: "ifconfig"
       register: "output"
+<<<<<<< HEAD
   - debug: var=output.stdout_lines
+=======
+      delegate_to: localhost
+
+    - debug: var=output.stdout_lines
+>>>>>>> 95676f67524ca626b34603faa94d62d7ae13e543
