@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  wordpress:
+    build:
+      context: /app/config
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: '${DB_ROOT_PASSWORD}'
+      WORDPRESS_DB_NAME: '${DB_NAME}'
+      WP_REDIS_HOST: redis
+      WP_REDIS_PORT: 6379
+    volumes:
+      - '/app/nhabaconboss:/var/www/html'
+      - '/app/config/php.conf.ini:/usr/local/etc/php/conf.d/conf.ini'
+    depends_on:
+      - db
+      - redis
+    networks:
+      - wp-network
+    image: ''
+  db:
+    image: 'mysql:8.0.33'
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: '${DB_NAME}'
+      MYSQL_ROOT_PASSWORD: '${DB_ROOT_PASSWORD}'
+    volumes:
+      - '/app/tmp/:/docker-entrypoint-initdb.d'
+      - 'db_data:/var/lib/mysql'
+    networks:
+      - wp-network
+  redis:
+    image: 'redis:alpine'
+    restart: unless-stopped
+    command: 'redis-server --maxmemory 100mb --maxmemory-policy allkeys-lru'
+    networks:
+      - wp-network
+networks:
+  wp-network:
+    driver: bridge
+volumes:
+  wordpress_data: null
+  db_data: null
